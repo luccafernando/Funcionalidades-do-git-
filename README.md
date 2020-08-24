@@ -84,7 +84,7 @@ Uma série de compromissos também podem ser removidos com rebase. Se tivermos a
     E---F---G---H---I---J  topicA
 em seguida, o comando
 
-git rebase --onto topicA~5 topicA~3 topicA
+git rebase --onto topicA~5~ topicA~3~ topicA
 resultaria na remoção dos compromissos F e G:
 
     E---H'---I'---J'  topicA
