@@ -92,11 +92,11 @@ Isso é útil se F e G foram falhos de alguma forma, ou não devem fazer parte d
 
 Em caso de conflito, a rebase de git vai parar no primeiro compromisso problemático e deixar marcadores de conflito na árvore. Você pode usar o git diff para localizar os marcadores (<<<<<<<)e fazer edições para resolver o conflito. Para cada arquivo que você editar, você precisa dizer ao Git que o conflito foi resolvido, normalmente isso seria feito com
 
-# git add <filename>
+git add <filename>
 
 Depois de resolver o conflito manualmente e atualizar o índice com a resolução desejada, você pode continuar o processo de rebasing com
 
 git rebase --continue
 Alternativamente, você pode desfazer a rebase git com
 
-# git rebase --abort
+git rebase --abort
