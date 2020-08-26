@@ -102,3 +102,10 @@ git rebase --continue
 Alternativamente, você pode desfazer a rebase git com
 
 git rebase --abort
+
+
+
+# Git Reverte 
+
+basicamente reverte um commit
+O comando git revert é uma operação de desfazer avançada que oferece um método seguro de desfazer alterações. Em vez de excluir ou tornar commits órfãos no histórico de commits, uma reversão vai criar um commit novo que inverte as alterações especificadas. O git revert é uma alternativa mais segura que o git reset em relação à perda de trabalho. Para demonstrar os efeitos do git revert, foram abordados outros comandos que têm uma documentação mais aprofundada nas páginas individuais: git log, git commit e git reset.
