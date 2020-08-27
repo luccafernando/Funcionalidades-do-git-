@@ -109,3 +109,57 @@ git rebase --abort
 
 basicamente reverte um commit
 O comando git revert é uma operação de desfazer avançada que oferece um método seguro de desfazer alterações. Em vez de excluir ou tornar commits órfãos no histórico de commits, uma reversão vai criar um commit novo que inverte as alterações especificadas. O git revert é uma alternativa mais segura que o git reset em relação à perda de trabalho. Para demonstrar os efeitos do git revert, foram abordados outros comandos que têm uma documentação mais aprofundada nas páginas individuais: git log, git commit e git reset.
+
+# Git Stash
+
+Descrição
+Use quando quiser registrar o estado atual do diretório de trabalho e do índice, mas quer voltar para um diretório de trabalho limpo. O comando salva suas modificações locais e reverte o diretório de trabalho para corresponder ao commit.git stashHEAD
+
+As modificações escondidas por este comando podem ser listadas com , inspecionadas com , e restauradas (potencialmente em cima de um compromisso diferente) com . Ligar sem argumentos é equivalente a . Um estoque é por padrão listado como "WIP no nome da branch ... ", mas você pode dar uma mensagem mais descritiva na linha de comando quando você criar uma.git stash listgit stash showgit stash applygit stashgit stash push
+
+O mais recente estoque que você criou é armazenado em; os estoques mais antigos são encontrados no refimento desta referência e podem ser nomeados usando a sintaxe de reflog usual (por exemplo. é o esconderijo mais recentemente criado, é o anterior, também é possível). Os stashes também podem ser referenciados especificando apenas o índice de estoque (por exemplo, o inteiro é equivalente a ).refs/stashstash@{0}stash@{1}stash@{2.hours.ago}nstash@{n}
+
+Comandos
+
+ppush [-p|--patch] [-k|--[no-]keep-index] [-u|--include-untracked] [-a|--all] [-q|--quiet] [-m|--message <message>] [--pathspec-from-file=<file> [--pathspec-file-nul]] [--] [<pathspec>…​]
+Save your local modifications to a new stash entry and roll them back to HEAD (in the working tree and in the index). The <message> part is optional and gives the description along with the stashed state.
+
+For quickly making a snapshot, you can omit "push". In this mode, non-option arguments are not allowed to prevent a misspelled subcommand from making an unwanted stash entry. The two exceptions to this are which acts as alias for and pathspec elements, which are allowed after a double hyphen for disambiguation.stash -pstash push -p--
+
+save [-p|--patch] [-k|--[no-]keep-index] [-u|--include-untracked] [-a|--all] [-q|--quiet] [<message>]
+This option is deprecated in favour of git stash push. It differs from "stash push" in that it cannot take pathspec. Instead, all non-option arguments are concatenated to form the stash message.
+
+list [<options>]
+List the stash entries that you currently have. Each stash entry is listed with its name (e.g. is the latest entry, is the one before, etc.), the name of the branch that was current when the entry was made, and a short description of the commit the entry was based on.stash@{0}stash@{1}
+
+stash@{0}: WIP on submit: 6ebd0e2... Update git-stash documentation
+stash@{1}: On master: 9cc0589... Add git-stash
+The command takes options applicable to the git log command to control what is shown and how. See git-log[1].
+
+show [<options>] [<stash>]
+Show the changes recorded in the stash entry as a diff between the stashed contents and the commit back when the stash entry was first created. By default, the command shows the diffstat, but it will accept any format known to git diff (e.g., to view the second most recent entry in patch form). You can use stash.showStat and/or stash.showPatch config variables to change the default behavior.git stash show -p stash@{1}
+
+pop [--index] [-q|--quiet] [<stash>]
+Remove a single stashed state from the stash list and apply it on top of the current working tree state, i.e., do the inverse operation of . The working directory must match the index.git stash push
+
+Applying the state can fail with conflicts; in this case, it is not removed from the stash list. You need to resolve the conflicts by hand and call manually afterwards.git stash drop
+
+apply [--index] [-q|--quiet] [<stash>]
+Like , but do not remove the state from the stash list. Unlike , may be any commit that looks like a commit created by or .poppop<stash>stash pushstash create
+
+branch <branchname> [<stash>]
+Creates and checks out a new branch named starting from the commit at which the was originally created, applies the changes recorded in to the new working tree and index. If that succeeds, and is a reference of the form , it then drops the .<branchname><stash><stash><stash>stash@{<revision>}<stash>
+
+This is useful if the branch on which you ran has changed enough that fails due to conflicts. Since the stash entry is applied on top of the commit that was HEAD at the time was run, it restores the originally stashed state with no conflicts.git stash pushgit stash applygit stash
+
+clear
+Remove all the stash entries. Note that those entries will then be subject to pruning, and may be impossible to recover (see Examples below for a possible strategy).
+
+drop [-q|--quiet] [<stash>]
+Remove a single stash entry from the list of stash entries.
+
+create
+Create a stash entry (which is a regular commit object) and return its object name, without storing it anywhere in the ref namespace. This is intended to be useful for scripts. It is probably not the command you want to use; see "push" above.
+
+store
+Store a given stash created via git stash create (which is a dangling merge commit) in the stash ref, updating the stash reflog. This is intended to be useful for scripts. It is probably not the command you want to use; see "push" above.
