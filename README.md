@@ -112,6 +112,8 @@ O comando git revert é uma operação de desfazer avançada que oferece um mét
 
 # Git Stash
 
+Pra qnd errar a branch, colocar na certa sem perder oque ja foi feito 
+
 Descrição
 Use quando quiser registrar o estado atual do diretório de trabalho e do índice, mas quer voltar para um diretório de trabalho limpo. O comando salva suas modificações locais e reverte o diretório de trabalho para corresponder ao commit.git stashHEAD
 
